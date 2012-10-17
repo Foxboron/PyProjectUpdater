@@ -16,8 +16,7 @@ class TempFolder(object):
         return self.path
 
     def __exit__(self, type, value, traceback):
-        #shutil.rmtree(self.path)
-        pass
+        shutil.rmtree(self.path)
 
 
 def settings():
@@ -48,12 +47,9 @@ def updater(tmp_dir = None, normal_path = None):
                 if dist[-1] != "\\":
                     dist += "\\"
                 if not os.path.exists(dist):
-                    print "Made dir: %s" % os.path.join(dist)
                     try:
                         distutils.dir_util.mkpath(dist)
-                        print "Yay"
                     except distutils.errors.DistutilsFileError:
-                        print "Error"
                         distutils.dir_util.remove_tree(dist)
                         distutils.dir_util.mkpath(dist)
                 for i in files:
@@ -72,7 +68,7 @@ def download(url):
     if "github" in url.lower():
         url += "/zipball/master"
     if "ftp" in url[:3].lower():
-        print url
+        pass
     with TempFolder() as tmp_path:
         packedname = tmp_path + "/tmp.zip"
         urllib.urlretrieve(url, packedname)
